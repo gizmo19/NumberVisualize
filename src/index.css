@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 1100px;
 }
 
 code {
@@ -16,12 +17,18 @@ h2 {
   color: white;
 }
 
+.columns {
+  margin-top: 20px;
+}
+
 .column {
   background-color: blue;
   opacity: .7;
-  height: 30px;
-  margin-top: 20px;
+  width: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
   text-align: center;
   align-items: center;
+  float: left;
 }
 

@@ -1,11 +1,17 @@
 import React from "react";
-import { motion } from "framer-motion";
 
 const NumberWriter = (props) => {
-  const width = props.element;
+  const height = props.element;
+  console.log(props.element);
   return (
-    <div className="column" key={props.element} style={{ width: width * 100 }}>
-      <h2>{props.element}</h2>
+    <div className="columns">
+      <div
+        className="column"
+        key={props.element}
+        style={{ height: height * 100 }}
+      >
+        <h2>{props.element}</h2>
+      </div>
     </div>
   );
 };
