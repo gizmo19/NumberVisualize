@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 const NumberWriter = (props) => {
   const height = props.element;
-  console.log(props.element);
+
   return (
     <div className="columns">
       <div
