@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 const NumberWriter = (props) => {
   const height = props.element;
-
   return (
     <div className="columns">
       <div
