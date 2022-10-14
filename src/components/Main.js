@@ -31,7 +31,15 @@ const Main = () => {
             el1: elements[j],
             el2: elements[j + 1],
             swap: true,
-            focused: false,
+            color: "red",
+          });
+          animations.push({
+            el1Index: j,
+            el2Index: j + 1,
+            el1: elements[j],
+            el2: elements[j + 1],
+            swap: false,
+            color: "blue",
           });
         } else {
           animations.push({
@@ -40,7 +48,15 @@ const Main = () => {
             el1: elements[j],
             el2: elements[j + 1],
             swap: false,
-            focused: false,
+            color: "red",
+          });
+          animations.push({
+            el1Index: j,
+            el2Index: j + 1,
+            el1: elements[j],
+            el2: elements[j + 1],
+            swap: false,
+            color: "blue",
           });
         }
       }
@@ -54,26 +70,21 @@ const Main = () => {
       let barTwoStyle = bars[frame.el2Index].style;
 
       setTimeout(() => {
-        barOneStyle.focused = true;
-        barTwoStyle.focused = true;
-        if (barOneStyle.focused && barTwoStyle.focused) {
-          barOneStyle.backgroundColor = "red";
-          barTwoStyle.backgroundColor = "red";
-          if (frame.swap) {
-            //zmienianie wysokosci, i cyferki wyswietlanej
-            // barOneStyle.height = barTwoStyle.element * 100;
-            // barTwoStyle.height = barOneStyle.element * 100;
-          } else {
-          }
-
-          // do poprawy kolorowanie
-          if (i >= 1) {
-            let previousBarStyle = bars[frame.el1Index].style;
-            console.log(frame.el1Index);
-            previousBarStyle.backgroundColor = "blue";
-          }
+        barOneStyle.backgroundColor = animations[i].color;
+        barTwoStyle.backgroundColor = animations[i].color;
+        if (frame.swap) {
+          console.log("zmienianie wysokosci i cyfry");
+          let el1Height = barOneStyle.height;
+          barOneStyle.height = barTwoStyle.height;
+          barTwoStyle.height = el1Height;
+          let el1Var = bars[frame.el1Index].innerHTML;
+          bars[frame.el1Index].innerHTML = bars[frame.el2Index].innerHTML;
+          bars[frame.el2Index].innerHTML = el1Var;
+        } else {
+          console.log("brak zmiany");
         }
-      }, i * 1000);
+        // do poprawy kolorowanie
+      }, i * 50);
     }
 
     // const historyLength = historyElements.length
@@ -103,6 +114,7 @@ const Main = () => {
         type="number"
         value={inputValue}
         onChange={inputHandler.bind(this)}
+        className="inputNumber"
       ></input>
       <button onClick={numberGenerator.bind(this)}>Generate</button>
       <button onClick={SortingNumbers.bind(this)}>Sort</button>
