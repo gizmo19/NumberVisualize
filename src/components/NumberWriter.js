@@ -10,7 +10,7 @@ const NumberWriter = (props) => {
         key={props.element}
         style={{ height: height * 100, width: 30 }}
       >
-        {console.log(document.getElementsByClassName('inputValue'))}
+        
         <h2>{props.element}</h2>
       </div>
     </div>
