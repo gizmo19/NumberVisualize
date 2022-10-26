@@ -1,28 +1,28 @@
 import AnimationsBuilder from "./AnimationsBuilder";
 
 export default class AnimateSort {
-  constructor(speedOption, buildAnimation) {
-    this.speedOption = speedOption;
-    this.animationBuilder = buildAnimation;
+  constructor(speed, animationsBuilder) {
+    this.speed = speed;
+    this.animationsBuilder = animationsBuilder;
   }
 
   animate() {
-    let animationBuilder = this.animationBuilder;
-    const animations = animationBuilder.getAll();
+    let animationsBuilder = this.animationsBuilder;
+    const animations = animationsBuilder.getAll();
     const bars = document.getElementsByClassName("column");
-    const speedOption = this.speedOption;
+    const animationSpeed = this.speed;
     const slow = "slow";
     const normal = "normal";
     const fast = "fast";
     const veryFast = "veryFast";
     let speed;
-    if (speedOption === slow) {
+    if (animationSpeed === slow) {
       speed = 500;
-    } else if (speedOption === normal) {
+    } else if (animationSpeed === normal) {
       speed = 200;
-    } else if (speedOption === fast) {
+    } else if (animationSpeed === fast) {
       speed = 10;
-    } else if (speedOption === veryFast) {
+    } else if (animationSpeed === veryFast) {
       speed = 3;
     } else {
       speed = 1;

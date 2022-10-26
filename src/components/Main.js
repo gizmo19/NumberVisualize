@@ -8,57 +8,50 @@ import AnimationsBuilder from "./AnimationsBuilder";
 
 const Main = () => {
   const [elements, setElements] = useState([]);
-  const [howManyNumbersValue, sethowManyNumbersValue] = useState(10);
-  const [
-    rangeOfGeneratedNumbersValue,
-    setrangeOfGeneratedNumbersValue,
-  ] = useState(10);
-  const [newElements, setNewElements] = useState([]);
+  const [numbersCount, setNumbersCount] = useState(10);
+  const [numbersRange, setNumbersRange] = useState(10);
 
-  const howManyNumbersValueHandler = (event) => {
-    let howManyNumbers = parseInt(event.target.value);
-    if (howManyNumbers > 100) {
-      howManyNumbers = 100;
+  const numbersCountHandler = (event) => {
+    let numbersCount = parseInt(event.target.value);
+    if (numbersCount > 100) {
+      numbersCount = 100;
     }
-    sethowManyNumbersValue(howManyNumbers);
+    setNumbersCount(numbersCount);
   };
 
-  const rangeOfGeneratedNumbers = (event) => {
-    let rangeOfNumbers = parseInt(event.target.value);
-    if (rangeOfNumbers > 50) {
-      rangeOfNumbers = 50;
-    }
-    setrangeOfGeneratedNumbersValue(rangeOfNumbers);
-  };
-
-  function arrayCreator() {
-    let arr;
-    let numbersCount = howManyNumbersValue;
-    let max = rangeOfGeneratedNumbersValue;
-    let arrayGenerator = new RandomArrayGenerator(numbersCount, max);
-    arr = arrayGenerator.generateArray();
+  const arrayCreator = () => {
+    let arrayGenerator = new RandomArrayGenerator(numbersCount, numbersRange);
+    let arr = arrayGenerator.generateArray();
     setElements(arr);
   }
+
+  const generatedNumbersRange = (event) => {
+    let numbersRange = parseInt(event.target.value);
+    if (numbersRange > 50) {
+      numbersRange = 50;
+    }
+    setNumbersRange(numbersRange);
+  };
+
+  const handleClick = (event) => {
+    let option = document.getElementById("speedOption");
+    let speed = option.value;
+    let animationsBuilder = new AnimationsBuilder();
+    let bubbleSort = new BubbleSort(elements, animationsBuilder);
+    bubbleSort.sort();
+    let animate = new AnimateSort(speed, animationsBuilder);
+    animate.animate();
+  };
 
   const renderedElements = elements.map((e) => {
     return (
       <ElementRenderer
-        numbersCount={howManyNumbersValue}
-        numbersRange={rangeOfGeneratedNumbersValue}
+        numbersCount={numbersCount}
+        numbersRange={numbersRange}
         element={e}
       />
     );
   });
-
-  const handleClick = (event) => {
-    let option = document.getElementById("speedOption");
-    let speedOption = option.value;
-    let buildAnimation = new AnimationsBuilder();
-    let bubbleSort = new BubbleSort(elements, buildAnimation);
-    bubbleSort.sort();
-    let animate = new AnimateSort(speedOption, buildAnimation)
-    animate.animate();
-  };
 
   return (
     <div>
@@ -66,19 +59,17 @@ const Main = () => {
         <p>Write how many numbers to generate:</p>
         <input
           type="number"
-          value={howManyNumbersValue}
-          onChange={howManyNumbersValueHandler.bind(this)}
-          className="howManyNumberInput"
-          maxLength={3}
+          value={numbersCount}
+          onChange={numbersCountHandler.bind(this)}
+          className="numbersCountInput"
         ></input>
         <button onClick={arrayCreator.bind(this)}>Generate</button>
         <p>Write the range of numbers</p>
         <input
           type="number"
-          value={rangeOfGeneratedNumbersValue}
-          onChange={rangeOfGeneratedNumbers.bind(this)}
-          className="numberRangeInput"
-          maxLength={3}
+          value={numbersRange}
+          onChange={generatedNumbersRange.bind(this)}
+          className="numbersRangeInput"
         ></input>
         <p>Choose the sort speed</p>
         <select id="speedOption">

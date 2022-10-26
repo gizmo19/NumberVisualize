@@ -1,15 +1,15 @@
 import { NumberGenerator } from "./NumberGenerator";
 
 export default class RandomArrayGenerator {
-  constructor(numbersCount, max) {
+  constructor(numbersCount, numbersRange) {
     this.numbersCount = numbersCount;
-    this.max = max;
+    this.numbersRange = numbersRange;
   }
 
   generateArray() {
     const numbersCount = this.numbersCount;
     const arr = [];
-    const max = this.max;
+    const max = this.numbersRange;
     const min = 1;
 
     let numberGenerator = new NumberGenerator(min, max);

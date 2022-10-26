@@ -1,9 +1,9 @@
 import AnimateSort from "./AnimateSort";
 
 export default class BubbleSort {
-  constructor(elements, buildAnimation) {
+  constructor(elements, animationsBuilder) {
     this.unsortedElements = elements;
-    this.animationBuilder = buildAnimation;
+    this.animationsBuilder = animationsBuilder;
   }
 
   sort() {
@@ -11,8 +11,6 @@ export default class BubbleSort {
     const speedOption = this.speedOption;
     const length = elements.length;
     const historyElements = [[...elements]];
-    const animations = [];
-    let animationBuilder = this.animationBuilder;
     if (Array.isArray(elements)) {
       for (let i = 0; i < length - 1; i++) {
         for (let j = 0; j < length - i - 1; j++) {
@@ -22,7 +20,7 @@ export default class BubbleSort {
             elements[j + 1] = swap;
             historyElements.push([...elements]);
 
-            animationBuilder.add({
+            this.animationsBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -30,7 +28,7 @@ export default class BubbleSort {
               swap: true,
               color: "red",
             });
-            animationBuilder.add({
+            this.animationsBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -39,7 +37,7 @@ export default class BubbleSort {
               color: "blue",
             });
           } else {
-            animationBuilder.add({
+            this.animationsBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -47,7 +45,7 @@ export default class BubbleSort {
               swap: false,
               color: "red",
             });
-            animationBuilder.add({
+            this.animationsBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -59,6 +57,5 @@ export default class BubbleSort {
         }
       }
     }
-    // console.log(animationBuilder.getAll())
   }
 }
