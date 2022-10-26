@@ -10,6 +10,10 @@ const Main = () => {
   const [elements, setElements] = useState([]);
   const [numbersCount, setNumbersCount] = useState(10);
   const [numbersRange, setNumbersRange] = useState(10);
+  const animationsBuilder = new AnimationsBuilder();
+  const arrayGenerator = new RandomArrayGenerator();
+  const bubbleSort = new BubbleSort(animationsBuilder);
+  const animate = new AnimateSort(animationsBuilder);
 
   const numbersCountHandler = (event) => {
     let numbersCount = parseInt(event.target.value);
@@ -20,8 +24,7 @@ const Main = () => {
   };
 
   const arrayCreator = () => {
-    let arrayGenerator = new RandomArrayGenerator(numbersCount, numbersRange);
-    let arr = arrayGenerator.generateArray();
+    let arr = arrayGenerator.generateArray(numbersCount, numbersRange);
     setElements(arr);
   }
 
@@ -36,11 +39,8 @@ const Main = () => {
   const handleClick = (event) => {
     let option = document.getElementById("speedOption");
     let speed = option.value;
-    let animationsBuilder = new AnimationsBuilder();
-    let bubbleSort = new BubbleSort(elements, animationsBuilder);
-    bubbleSort.sort();
-    let animate = new AnimateSort(speed, animationsBuilder);
-    animate.animate();
+    bubbleSort.sort(elements);
+    animate.animate(speed);
   };
 
   const renderedElements = elements.map((e) => {

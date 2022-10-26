@@ -1,13 +1,11 @@
 import AnimateSort from "./AnimateSort";
 
 export default class BubbleSort {
-  constructor(elements, animationsBuilder) {
-    this.unsortedElements = elements;
+  constructor(animationsBuilder) {
     this.animationsBuilder = animationsBuilder;
   }
 
-  sort() {
-    const elements = this.unsortedElements;
+  sort(elements) {
     const speedOption = this.speedOption;
     const length = elements.length;
     const historyElements = [[...elements]];
