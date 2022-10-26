@@ -3,6 +3,8 @@ import ElementRenderer from "./ElementRenderer";
 import BubbleSort from "./BubbleSort";
 import "../index.css";
 import RandomArrayGenerator from "./RandomArrayGenerator";
+import AnimateSort from "./AnimateSort";
+import AnimationsBuilder from "./AnimationsBuilder";
 
 const Main = () => {
   const [elements, setElements] = useState([]);
@@ -15,7 +17,7 @@ const Main = () => {
 
   const howManyNumbersValueHandler = (event) => {
     let howManyNumbers = parseInt(event.target.value);
-    if(howManyNumbers > 100) {
+    if (howManyNumbers > 100) {
       howManyNumbers = 100;
     }
     sethowManyNumbersValue(howManyNumbers);
@@ -23,7 +25,7 @@ const Main = () => {
 
   const rangeOfGeneratedNumbers = (event) => {
     let rangeOfNumbers = parseInt(event.target.value);
-    if(rangeOfNumbers > 50) {
+    if (rangeOfNumbers > 50) {
       rangeOfNumbers = 50;
     }
     setrangeOfGeneratedNumbersValue(rangeOfNumbers);
@@ -31,7 +33,9 @@ const Main = () => {
 
   function arrayCreator() {
     let arr;
-    let arrayGenerator = new RandomArrayGenerator(howManyNumbersValue, rangeOfGeneratedNumbersValue);
+    let numbersCount = howManyNumbersValue;
+    let max = rangeOfGeneratedNumbersValue;
+    let arrayGenerator = new RandomArrayGenerator(numbersCount, max);
     arr = arrayGenerator.generateArray();
     setElements(arr);
   }
@@ -39,18 +43,21 @@ const Main = () => {
   const renderedElements = elements.map((e) => {
     return (
       <ElementRenderer
-        howManyNumbers={howManyNumbersValue}
-        rangeOfGeneratedNumbers={rangeOfGeneratedNumbersValue}
+        numbersCount={howManyNumbersValue}
+        numbersRange={rangeOfGeneratedNumbersValue}
         element={e}
       />
     );
   });
 
   const handleClick = (event) => {
-    let option = document.getElementById("howFastId");
-    let value = option.value;
-    let bubbleSort = new BubbleSort(elements, value);
+    let option = document.getElementById("speedOption");
+    let speedOption = option.value;
+    let buildAnimation = new AnimationsBuilder();
+    let bubbleSort = new BubbleSort(elements, buildAnimation);
     bubbleSort.sort();
+    let animate = new AnimateSort(speedOption, buildAnimation)
+    animate.animate();
   };
 
   return (
@@ -74,7 +81,7 @@ const Main = () => {
           maxLength={3}
         ></input>
         <p>Choose the sort speed</p>
-        <select id="howFastId">
+        <select id="speedOption">
           <option value="slow">Slow</option>
           <option value="normal">Normal</option>
           <option value="fast">Fast</option>

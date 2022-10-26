@@ -1,21 +1,21 @@
 import { NumberGenerator } from "./NumberGenerator";
 
 export default class RandomArrayGenerator {
-  constructor(howManyNumbersValue, rangeOfGeneratedNumbersValue) {
-    this.howManyNumbersValue = howManyNumbersValue;
-    this.rangeOfGeneratedNumbersValue = rangeOfGeneratedNumbersValue;
+  constructor(numbersCount, max) {
+    this.numbersCount = numbersCount;
+    this.max = max;
   }
 
   generateArray() {
-    const howManyNumbersValue = this.howManyNumbersValue;
-    const rangeOfGeneratedNumbersValue = this.rangeOfGeneratedNumbersValue;
+    const numbersCount = this.numbersCount;
     const arr = [];
-    const minimum = 1;
+    const max = this.max;
+    const min = 1;
 
-    let numberGenerator = new NumberGenerator(minimum, rangeOfGeneratedNumbersValue);
+    let numberGenerator = new NumberGenerator(min, max);
 
-    for (let i = 0; i < howManyNumbersValue; i++) {
-        let generatedValue = numberGenerator.generateRandomNumber();
+    for (let i = 0; i < numbersCount; i++) {
+      let generatedValue = numberGenerator.generateRandomNumber();
       arr.push(generatedValue);
     }
     return arr;

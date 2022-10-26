@@ -1,7 +1,7 @@
 export class NumberGenerator {
-  constructor(minimum, rangeOfGeneratedNumbersValue) {
-    this.min = minimum;
-    this.max = rangeOfGeneratedNumbersValue;
+  constructor(min, max) {
+    this.min = min;
+    this.max = max;
   }
 
   generateRandomNumber() {

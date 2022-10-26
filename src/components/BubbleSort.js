@@ -1,18 +1,19 @@
 import AnimateSort from "./AnimateSort";
 
 export default class BubbleSort {
-  constructor(elements, option) {
+  constructor(elements, buildAnimation) {
     this.unsortedElements = elements;
-    this.howFastOption = option;
+    this.animationBuilder = buildAnimation;
   }
 
   sort() {
     const elements = this.unsortedElements;
-    const option = this.howFastOption;
+    const speedOption = this.speedOption;
     const length = elements.length;
     const historyElements = [[...elements]];
     const animations = [];
-    if(Array.isArray(elements)) {
+    let animationBuilder = this.animationBuilder;
+    if (Array.isArray(elements)) {
       for (let i = 0; i < length - 1; i++) {
         for (let j = 0; j < length - i - 1; j++) {
           if (elements[j] > elements[j + 1]) {
@@ -20,8 +21,8 @@ export default class BubbleSort {
             elements[j] = elements[j + 1];
             elements[j + 1] = swap;
             historyElements.push([...elements]);
-  
-            animations.push({
+
+            animationBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -29,7 +30,7 @@ export default class BubbleSort {
               swap: true,
               color: "red",
             });
-            animations.push({
+            animationBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -38,7 +39,7 @@ export default class BubbleSort {
               color: "blue",
             });
           } else {
-            animations.push({
+            animationBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -46,7 +47,7 @@ export default class BubbleSort {
               swap: false,
               color: "red",
             });
-            animations.push({
+            animationBuilder.add({
               el1Index: j,
               el2Index: j + 1,
               el1: elements[j],
@@ -57,8 +58,7 @@ export default class BubbleSort {
           }
         }
       }
-    } 
-    let animate = new AnimateSort(animations, option);
-    animate.animateElements();
+    }
+    // console.log(animationBuilder.getAll())
   }
 }

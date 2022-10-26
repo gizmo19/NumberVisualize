@@ -4,10 +4,10 @@ import ColumnSize from "./ColumnSize";
 
 const ElementRenderer = (props) => {
   const height = props.element;
-  const howManyNumbers = props.howManyNumbers;
-  const rangeOfGeneratedNumbers = props.rangeOfGeneratedNumbers;
+  const numbersCount = props.numbersCount;
+  const numbersRange = props.numbersRange;
 
-  let column = new ColumnSize(rangeOfGeneratedNumbers, howManyNumbers, height);
+  let column = new ColumnSize(numbersRange, numbersCount, height);
   let size = column.size();
 
   return (
