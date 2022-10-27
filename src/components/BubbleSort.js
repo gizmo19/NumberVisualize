@@ -6,7 +6,6 @@ export default class BubbleSort {
   }
 
   sort(elements) {
-    const speedOption = this.speedOption;
     const length = elements.length;
     const historyElements = [[...elements]];
     if (Array.isArray(elements)) {
