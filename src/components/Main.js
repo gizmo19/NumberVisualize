@@ -1,124 +1,87 @@
 import React, { useState } from "react";
-import NumberWriter from "./NumberWriter";
+import ElementRenderer from "./ElementRenderer";
+import BubbleSort from "./BubbleSort";
+import "../index.css";
+import RandomArrayGenerator from "./RandomArrayGenerator";
+import AnimateSort from "./AnimateSort";
+import AnimationsBuilder from "./AnimationsBuilder";
 
 const Main = () => {
   const [elements, setElements] = useState([]);
-  const [inputValue, setInputValue] = useState(10);
-  const [newElements, setNewElements] = useState([]);
+  const [numbersCount, setNumbersCount] = useState(10);
+  const [numbersRange, setNumbersRange] = useState(10);
+  const animationsBuilder = new AnimationsBuilder();
+  const arrayGenerator = new RandomArrayGenerator();
+  const bubbleSort = new BubbleSort(animationsBuilder);
+  const animate = new AnimateSort(animationsBuilder);
 
-  const inputHandler = (event) => {
-    const newValue = parseInt(event.target.value);
-    setInputValue(newValue);
+  const numbersCountHandler = (event) => {
+    let numbersCount = parseInt(event.target.value);
+    if (numbersCount > 100) {
+      numbersCount = 100;
+    }
+    setNumbersCount(numbersCount);
   };
 
-  const SortingNumbers = () => {
-    const l = elements.length;
-    let historyElements = [[...elements]];
-
-    let animations = [];
-
-    for (let i = 0; i < l - 1; i++) {
-      for (let j = 0; j < l - i - 1; j++) {
-        if (elements[j] > elements[j + 1]) {
-          let swap = elements[j];
-          elements[j] = elements[j + 1];
-          elements[j + 1] = swap;
-          historyElements.push([...elements]);
-
-          animations.push({
-            el1Index: j,
-            el2Index: j + 1,
-            el1: elements[j],
-            el2: elements[j + 1],
-            swap: true,
-            color: "red",
-          });
-          animations.push({
-            el1Index: j,
-            el2Index: j + 1,
-            el1: elements[j],
-            el2: elements[j + 1],
-            swap: false,
-            color: "blue",
-          });
-        } else {
-          animations.push({
-            el1Index: j,
-            el2Index: j + 1,
-            el1: elements[j],
-            el2: elements[j + 1],
-            swap: false,
-            color: "red",
-          });
-          animations.push({
-            el1Index: j,
-            el2Index: j + 1,
-            el1: elements[j],
-            el2: elements[j + 1],
-            swap: false,
-            color: "blue",
-          });
-        }
-      }
-    }
-
-    const bars = document.getElementsByClassName("column");
-    for (let i = 0; i < animations.length; i++) {
-      let frame = animations[i];
-      // console.log(frame);
-      let barOneStyle = bars[frame.el1Index].style;
-      let barTwoStyle = bars[frame.el2Index].style;
-
-      setTimeout(() => {
-        barOneStyle.backgroundColor = animations[i].color;
-        barTwoStyle.backgroundColor = animations[i].color;
-        if (frame.swap) {
-          console.log("zmienianie wysokosci i cyfry");
-          let el1Height = barOneStyle.height;
-          barOneStyle.height = barTwoStyle.height;
-          barTwoStyle.height = el1Height;
-          let el1Var = bars[frame.el1Index].innerHTML;
-          bars[frame.el1Index].innerHTML = bars[frame.el2Index].innerHTML;
-          bars[frame.el2Index].innerHTML = el1Var;
-        } else {
-          console.log("brak zmiany");
-        }
-        // do poprawy kolorowanie
-      }, i * 50);
-    }
-
-    // const historyLength = historyElements.length
-    // setNewElements(historyElements[historyLength-1])
-  };
-
-  const randomHandler = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  };
-
-  const numberGenerator = () => {
-    const arr = [];
-    for (let i = 0; i < inputValue; i++) {
-      arr.push(randomHandler(1, 10));
-    }
+  const arrayCreator = () => {
+    let arr = arrayGenerator.generateArray(numbersCount, numbersRange);
     setElements(arr);
+  }
+
+  const generatedNumbersRange = (event) => {
+    let numbersRange = parseInt(event.target.value);
+    if (numbersRange > 50) {
+      numbersRange = 50;
+    }
+    setNumbersRange(numbersRange);
+  };
+
+  const handleClick = (event) => {
+    let option = document.getElementById("speedOption");
+    let speed = option.value;
+    bubbleSort.sort(elements);
+    animate.animate(speed);
   };
 
   const renderedElements = elements.map((e) => {
-    return <NumberWriter element={e} />;
+    return (
+      <ElementRenderer
+        numbersCount={numbersCount}
+        numbersRange={numbersRange}
+        element={e}
+      />
+    );
   });
 
   return (
     <div>
-      Number generator
-      <input
-        type="number"
-        value={inputValue}
-        onChange={inputHandler.bind(this)}
-        className="inputNumber"
-      ></input>
-      <button onClick={numberGenerator.bind(this)}>Generate</button>
-      <button onClick={SortingNumbers.bind(this)}>Sort</button>
-      {renderedElements}
+      <div className="leftPanel">
+        <p>Write how many numbers to generate:</p>
+        <input
+          type="number"
+          value={numbersCount}
+          onChange={numbersCountHandler.bind(this)}
+          className="numbersCountInput"
+        ></input>
+        <button onClick={arrayCreator.bind(this)}>Generate</button>
+        <p>Write the range of numbers</p>
+        <input
+          type="number"
+          value={numbersRange}
+          onChange={generatedNumbersRange.bind(this)}
+          className="numbersRangeInput"
+        ></input>
+        <p>Choose the sort speed</p>
+        <select id="speedOption">
+          <option value="slow">Slow</option>
+          <option value="normal">Normal</option>
+          <option value="fast">Fast</option>
+          <option value="veryFast">Very Fast</option>
+          <option value="iamspeed">I am speed</option>
+        </select>
+        <button onClick={handleClick.bind(this)}>Sort</button>
+      </div>
+      <div className="columnDivHolder">{renderedElements}</div>
     </div>
   );
 };
