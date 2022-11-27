@@ -1,6 +1,6 @@
 import RandomArrayGenerator from "../RandomArrayGenerator"
 
-describe("Random Array Generator", () => {
+describe("Random Array Generator test", () => {
     it("it should contain 10 numbers", () => {
         const randomArrayGenerator = new RandomArrayGenerator();
         const result = randomArrayGenerator.generateArray(10, 10);
